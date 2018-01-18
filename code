@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace DS_Project
+{
+    class JSearch
+    {
+        
+        void Search(int[] arr, int x)
+        {
+            int jump = Convert.ToInt16(Math.Sqrt(arr.Length));
+            int i = 0;
+            while (arr[i*jump] < x)
+            {
+                i++;
+                if (i*jump > arr.Length)
+                {
+                    Console.WriteLine("number not present");
+                    i--;
+                    return;
+                }
+            }
+            LinearSearch(x,arr,(i*jump)-jump,i*jump);
+        }
+          void LinearSearch(int x,int[] arr, int l, int r)
+          {
+            string ss = null;
+            int i = r;
+            while( i >= l)
+            {
+                if (arr[i] == x)
+                {
+                    ss = "Number found on index =";
+                    using (StreamWriter sw = new StreamWriter("C:\\Users\\Ahmed\\Desktop\\output.txt"))
+                        try
+                        {
+                            for (int j = 0; j < ss.Length; j++)
+                            {
+                                sw.Write(ss[j]);
+                            }
+                            sw.Write(i);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    Console.WriteLine("Number {0} found on index {1}",x, i);
+                    break;       
+                }
+                i--;
+            }
+            if (arr[i] != x)
+            Console.WriteLine("Number not found");
+           }
+
+        
+        static void Main(string[] args)
+        {
+            int numToSearch=0;
+            int[] arr = new int[26];
+            StreamReader sr = new StreamReader("C:\\Users\\Ahmed\\Desktop\\project.txt");
+            try
+            {
+                for(int i = 0; i < arr.Length; i++)
+                {
+                    arr[i] = int.Parse(sr.ReadLine());
+                }
+                numToSearch = int.Parse(sr.ReadLine());
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            JSearch o = new JSearch();
+            o.Search(arr,numToSearch);
+            Console.ReadKey();
+        }
+    }
+}
